@@ -1,0 +1,31 @@
+package com.reposteria.productos.patterns.strategy;
+
+import com.reposteria.productos.model.Producto;
+import com.reposteria.productos.repository.ProductoRepository;
+import org.springframework.core.annotation.Order;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@Order(1)
+public class BusquedaPorNombreYCategoriaStrategy implements BusquedaProductoStrategy {
+
+    private final ProductoRepository repository;
+
+    public BusquedaPorNombreYCategoriaStrategy(ProductoRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public boolean aplica(String nombre, String categoria) {
+        return nombre != null && categoria != null;
+    }
+
+    @Override
+    public List<Producto> buscar(String nombre, String categoria) {
+        return repository.findByNombreContainingIgnoreCaseAndCategoriaContainingIgnoreCase(
+                nombre, categoria, Sort.by("nombre"));
+    }
+}

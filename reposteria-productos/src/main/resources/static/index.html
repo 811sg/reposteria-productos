@@ -3,180 +3,401 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Productos de repostería</title>
+    <meta name="theme-color" content="#2b211d">
+    <title>Repostería · Gestión de productos</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link href="/css/styles.css" rel="stylesheet">
 </head>
 <body>
 
-<!-- ============ INICIO DE SESIÓN ============ -->
-<main id="vistaLogin" class="login-wrap">
-    <form id="formLogin" class="login-card" novalidate>
-        <h1 class="titulo">Productos de repostería</h1>
-        <p class="text-muted mb-4">Inicie sesión para gestionar el catálogo.</p>
-        <div class="mb-3">
-            <label for="loginUsuario" class="form-label">Usuario</label>
-            <input id="loginUsuario" class="form-control" autocomplete="username" required>
+<!-- ===================== LOGIN ===================== -->
+<main id="vistaLogin" class="login-page">
+    <div class="login-decoration" aria-hidden="true">
+        <div class="login-orbit login-orbit-one"></div>
+        <div class="login-orbit login-orbit-two"></div>
+        <div class="login-spark spark-one"><i class="bi bi-stars"></i></div>
+        <div class="login-spark spark-two"><i class="bi bi-flower1"></i></div>
+        <div class="login-copy">
+            <div class="brand-mark large"><i class="bi bi-cake2"></i></div>
+            <span class="eyebrow">GESTIÓN DE REPOSTERÍA</span>
+            <h2>Todo tu catálogo,<br><em>en un solo lugar.</em></h2>
+            <p>Administra productos, disponibilidad e información del catálogo de forma clara y ordenada.</p>
+            <div class="login-feature-list">
+                <span><i class="bi bi-check2-circle"></i> Catálogo organizado</span>
+                <span><i class="bi bi-check2-circle"></i> Control de disponibilidad</span>
+                <span><i class="bi bi-check2-circle"></i> Historial de cambios</span>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="loginClave" class="form-label">Contraseña</label>
-            <input id="loginClave" type="password" class="form-control" autocomplete="current-password" required>
-        </div>
-        <div id="loginError" class="alert alert-danger py-2 d-none" role="alert"></div>
-        <button class="btn btn-berry w-100" type="submit">Iniciar sesión</button>
-        <p class="small text-muted mt-3 mb-0">
-            Pruebas: <code>admin / admin123</code> (gestiona productos) y <code>consultor / consultor123</code> (solo consulta).
-        </p>
-    </form>
+    </div>
+
+    <div class="login-panel">
+        <form id="formLogin" class="login-card" novalidate>
+            <div class="mobile-brand">
+                <div class="brand-mark"><i class="bi bi-cake2"></i></div>
+                <span>Repostería</span>
+            </div>
+            <div class="login-heading">
+                <span class="eyebrow">BIENVENIDO DE NUEVO</span>
+                <h1>Iniciar sesión</h1>
+                <p>Accede al espacio de gestión de productos.</p>
+            </div>
+
+            <div class="field-group">
+                <label for="loginUsuario">Usuario</label>
+                <div class="input-icon">
+                    <i class="bi bi-person"></i>
+                    <input id="loginUsuario" class="form-control" autocomplete="username" placeholder="Tu usuario" required>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label for="loginClave">Contraseña</label>
+                <div class="input-icon password-field">
+                    <i class="bi bi-lock"></i>
+                    <input id="loginClave" type="password" class="form-control" autocomplete="current-password" placeholder="Tu contraseña" required>
+                    <button id="btnVerClave" class="password-toggle" type="button" aria-label="Mostrar contraseña" title="Mostrar contraseña">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="loginError" class="form-alert danger d-none" role="alert"></div>
+
+            <button class="btn btn-main w-100 login-submit" type="submit">
+                <span>Entrar al catálogo</span>
+                <i class="bi bi-arrow-right"></i>
+            </button>
+
+            <div class="login-help">
+                <i class="bi bi-shield-check"></i>
+                <span>Acceso protegido mediante autenticación del sistema.</span>
+            </div>
+
+            <details class="demo-access">
+                <summary>Credenciales de prueba</summary>
+                <div><strong>Administrador</strong> · admin / admin123</div>
+                <div><strong>Consultor</strong> · consultor / consultor123</div>
+            </details>
+        </form>
+    </div>
 </main>
 
-<!-- ============ APLICACIÓN ============ -->
-<div id="vistaApp" class="d-none">
-    <header class="barra">
-        <div class="container-xl d-flex align-items-center justify-content-between flex-wrap gap-2">
-            <span class="titulo fs-4">Productos de repostería</span>
-            <div class="d-flex align-items-center gap-2">
-                <span id="usuarioActual" class="small"></span>
-                <button id="btnHistorial" class="btn btn-sm btn-outline-light solo-admin d-none" type="button">Historial de cambios</button>
-                <a class="btn btn-sm btn-outline-light" href="/swagger-ui.html" target="_blank" rel="noopener">API (Swagger)</a>
-                <button id="btnSalir" class="btn btn-sm btn-light" type="button">Cerrar sesión</button>
+<!-- ===================== APP ===================== -->
+<div id="vistaApp" class="app-shell d-none">
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-mark"><i class="bi bi-cake2"></i></div>
+            <div>
+                <strong>Repostería</strong>
+                <small>Gestión de productos</small>
             </div>
         </div>
-    </header>
 
-    <main class="container-xl py-4">
-        <section class="filtros mb-3" aria-label="Buscar productos">
-            <form id="formBuscar" class="row g-2 align-items-end">
-                <div class="col-12 col-md-4">
-                    <label for="buscarNombre" class="form-label">Nombre</label>
-                    <input id="buscarNombre" class="form-control" placeholder="Ej: torta">
-                </div>
-                <div class="col-12 col-md-3">
-                    <label for="buscarCategoria" class="form-label">Categoría</label>
-                    <select id="buscarCategoria" class="form-select"><option value="">Todas</option></select>
-                </div>
-                <div class="col-12 col-md-2">
-                    <div class="form-check mb-2">
-                        <input id="soloDisponibles" class="form-check-input" type="checkbox">
-                        <label for="soloDisponibles" class="form-check-label">Solo disponibles</label>
-                    </div>
-                </div>
-                <div class="col-12 col-md-3 d-flex gap-2">
-                    <button class="btn btn-berry" type="submit">Buscar</button>
-                    <button id="btnLimpiar" class="btn btn-outline-secondary" type="button">Limpiar</button>
-                    <button id="btnNuevo" class="btn btn-pistacho ms-auto solo-admin d-none" type="button">Nuevo producto</button>
-                </div>
-            </form>
-        </section>
-
-        <div id="mensajeLista" class="alert alert-danger d-none" role="alert"></div>
-
-        <div class="table-responsive">
-            <table class="table align-middle tabla">
-                <thead>
-                <tr>
-                    <th scope="col" style="width:72px"></th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Categoría</th>
-                    <th scope="col" class="text-end">Precio</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col" class="text-end">Acciones</th>
-                </tr>
-                </thead>
-                <tbody id="cuerpoTabla"></tbody>
-            </table>
+        <div class="sidebar-section">
+            <span class="sidebar-label">MENÚ</span>
+            <button class="side-link active" type="button">
+                <i class="bi bi-grid-1x2"></i>
+                <span>Catálogo</span>
+            </button>
+            <button id="btnHistorial" class="side-link solo-admin d-none" type="button">
+                <i class="bi bi-clock-history"></i>
+                <span>Historial</span>
+            </button>
+            <a class="side-link" href="/swagger-ui.html" target="_blank" rel="noopener">
+                <i class="bi bi-braces"></i>
+                <span>Documentación API</span>
+                <i class="bi bi-box-arrow-up-right side-external"></i>
+            </a>
         </div>
-        <p id="conteo" class="small text-muted"></p>
-    </main>
+
+        <div class="sidebar-bottom">
+            <div class="sidebar-user">
+                <div class="user-avatar"><i class="bi bi-person"></i></div>
+                <div class="user-info">
+                    <strong id="usuarioSidebar">Usuario</strong>
+                    <span id="rolSidebar">Rol</span>
+                </div>
+            </div>
+            <button id="btnSalir" class="logout-link" type="button">
+                <i class="bi bi-box-arrow-left"></i>
+                <span>Cerrar sesión</span>
+            </button>
+        </div>
+    </aside>
+
+    <div class="app-content">
+        <header class="topbar">
+            <button id="btnMenuMobile" class="mobile-menu" type="button" aria-label="Abrir menú">
+                <i class="bi bi-list"></i>
+            </button>
+            <div class="topbar-context">
+                <span>Administración</span>
+                <i class="bi bi-chevron-right"></i>
+                <strong>Productos</strong>
+            </div>
+            <div class="topbar-right">
+                <span class="live-dot"></span>
+                <span class="small">Sistema operativo</span>
+                <div class="topbar-user">
+                    <div class="user-avatar small"><i class="bi bi-person"></i></div>
+                    <span id="usuarioActual">Usuario</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="workspace">
+            <section class="page-heading">
+                <div>
+                    <span class="eyebrow">CATÁLOGO</span>
+                    <h1>Productos de repostería</h1>
+                    <p>Consulta y administra los productos disponibles en el sistema.</p>
+                </div>
+                <button id="btnNuevo" class="btn btn-main solo-admin d-none" type="button">
+                    <i class="bi bi-plus-lg"></i>
+                    <span>Nuevo producto</span>
+                </button>
+            </section>
+
+            <section class="stats-grid" aria-label="Resumen del catálogo">
+                <article class="stat-card">
+                    <div class="stat-icon neutral"><i class="bi bi-box-seam"></i></div>
+                    <div>
+                        <span>Total productos</span>
+                        <strong id="statTotal">—</strong>
+                    </div>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon success"><i class="bi bi-check2"></i></div>
+                    <div>
+                        <span>Disponibles</span>
+                        <strong id="statDisponibles">—</strong>
+                    </div>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon accent"><i class="bi bi-layers"></i></div>
+                    <div>
+                        <span>Categorías</span>
+                        <strong id="statCategorias">—</strong>
+                    </div>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon muted"><i class="bi bi-slash-circle"></i></div>
+                    <div>
+                        <span>No disponibles</span>
+                        <strong id="statDesactivados">—</strong>
+                    </div>
+                </article>
+            </section>
+
+            <section class="filter-panel" aria-label="Buscar productos">
+                <div class="filter-heading">
+                    <div class="filter-title">
+                        <div class="filter-icon"><i class="bi bi-sliders2"></i></div>
+                        <div>
+                            <strong>Buscar en el catálogo</strong>
+                            <span>Filtra por nombre, categoría o disponibilidad.</span>
+                        </div>
+                    </div>
+                    <span id="conteo" class="result-count">—</span>
+                </div>
+
+                <form id="formBuscar" class="filter-form">
+                    <div class="field-group">
+                        <label for="buscarNombre">Nombre</label>
+                        <div class="input-icon">
+                            <i class="bi bi-search"></i>
+                            <input id="buscarNombre" class="form-control" placeholder="Buscar por nombre">
+                        </div>
+                    </div>
+                    <div class="field-group">
+                        <label for="buscarCategoria">Categoría</label>
+                        <div class="select-wrap">
+                            <select id="buscarCategoria" class="form-select">
+                                <option value="">Todas las categorías</option>
+                            </select>
+                            <i class="bi bi-chevron-down"></i>
+                        </div>
+                    </div>
+                    <label class="availability-check" for="soloDisponibles">
+                        <input id="soloDisponibles" type="checkbox">
+                        <span class="custom-check"><i class="bi bi-check"></i></span>
+                        <span>Solo disponibles</span>
+                    </label>
+                    <div class="filter-actions">
+                        <button class="btn btn-main" type="submit"><i class="bi bi-search"></i> Buscar</button>
+                        <button id="btnLimpiar" class="btn btn-ghost" type="button"><i class="bi bi-arrow-counterclockwise"></i> Limpiar</button>
+                    </div>
+                </form>
+            </section>
+
+            <div id="mensajeLista" class="form-alert danger d-none" role="alert"></div>
+
+            <section class="catalog-section">
+                <div class="catalog-header">
+                    <div>
+                        <h2>Catálogo</h2>
+                        <span>Productos registrados en el sistema</span>
+                    </div>
+                    <span class="catalog-note"><i class="bi bi-info-circle"></i> Selecciona un producto para ver sus detalles</span>
+                </div>
+                <div id="cuerpoCatalogo" class="product-grid"></div>
+            </section>
+        </main>
+    </div>
 </div>
 
-<!-- ============ MODAL: CREAR / EDITAR ============ -->
+<!-- ===================== MODAL PRODUCTO ===================== -->
 <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="tituloModalProducto" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <form id="formProducto" class="modal-content" novalidate>
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <form id="formProducto" class="modal-content product-modal" novalidate>
             <div class="modal-header">
-                <h2 class="modal-title fs-5 titulo" id="tituloModalProducto">Nuevo producto</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <div class="modal-title-wrap">
+                    <div class="modal-icon"><i class="bi bi-box-seam"></i></div>
+                    <div>
+                        <span class="eyebrow">CATÁLOGO</span>
+                        <h2 class="modal-title" id="tituloModalProducto">Nuevo producto</h2>
+                    </div>
+                </div>
+                <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Cerrar"><i class="bi bi-x-lg"></i></button>
             </div>
             <div class="modal-body">
-                <div id="erroresForm" class="alert alert-danger d-none" role="alert"></div>
+                <div id="erroresForm" class="form-alert danger d-none" role="alert"></div>
                 <input type="hidden" id="pId">
-                <div class="row g-3">
-                    <div class="col-md-8">
-                        <label for="pNombre" class="form-label">Nombre</label>
-                        <input id="pNombre" class="form-control" maxlength="100" required>
+
+                <div class="product-form-layout">
+                    <div class="form-fields">
+                        <div class="form-section-title">
+                            <span>Información principal</span>
+                            <small>Completa los datos del producto</small>
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <div class="field-group">
+                                    <label for="pNombre">Nombre del producto <span>*</span></label>
+                                    <input id="pNombre" class="form-control" maxlength="100" placeholder="Ej. Torta de chocolate" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="field-group">
+                                    <label for="pPrecio">Precio <span>*</span></label>
+                                    <div class="money-input">
+                                        <span>$</span>
+                                        <input id="pPrecio" type="number" class="form-control" min="0.01" step="0.01" placeholder="0" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="field-group">
+                                    <label for="pDescripcion">Descripción <span>*</span></label>
+                                    <textarea id="pDescripcion" class="form-control" rows="4" maxlength="255" placeholder="Describe brevemente el producto..." required></textarea>
+                                    <small class="field-hint">Máximo 255 caracteres.</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="field-group">
+                                    <label for="pCategoria">Categoría <span>*</span></label>
+                                    <input id="pCategoria" class="form-control" list="listaCategorias" maxlength="100" placeholder="Ej. Torta" required>
+                                    <datalist id="listaCategorias"></datalist>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="field-group">
+                                    <label for="pDisponibilidad">Disponibilidad</label>
+                                    <div class="select-wrap">
+                                        <select id="pDisponibilidad" class="form-select">
+                                            <option value="true">Disponible para la venta</option>
+                                            <option value="false">No disponible</option>
+                                        </select>
+                                        <i class="bi bi-chevron-down"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label for="pPrecio" class="form-label">Precio (COP)</label>
-                        <input id="pPrecio" type="number" class="form-control" min="0.01" step="0.01" required>
-                    </div>
-                    <div class="col-12">
-                        <label for="pDescripcion" class="form-label">Descripción</label>
-                        <textarea id="pDescripcion" class="form-control" rows="2" maxlength="255" required></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="pCategoria" class="form-label">Categoría</label>
-                        <input id="pCategoria" class="form-control" list="listaCategorias" maxlength="100" required>
-                        <datalist id="listaCategorias"></datalist>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="pDisponibilidad" class="form-label">Disponibilidad</label>
-                        <select id="pDisponibilidad" class="form-select">
-                            <option value="true">Disponible</option>
-                            <option value="false">No disponible</option>
-                        </select>
-                    </div>
-                    <div class="col-12">
-                        <label for="pImagen" class="form-label">Imagen (JPG, PNG, WEBP o GIF, máx. 5 MB)</label>
-                        <input id="pImagen" type="file" class="form-control" accept="image/jpeg,image/png,image/webp,image/gif">
+
+                    <div class="image-upload-panel">
+                        <div class="form-section-title">
+                            <span>Imagen del producto</span>
+                            <small>JPG, PNG, WEBP o GIF · Máx. 5 MB</small>
+                        </div>
+                        <div id="imagenPreview" class="image-preview">
+                            <div class="image-placeholder">
+                                <i class="bi bi-image"></i>
+                                <strong>Agrega una imagen</strong>
+                                <span>Se mostrará aquí antes de guardar</span>
+                            </div>
+                        </div>
+                        <label class="upload-button" for="pImagen">
+                            <i class="bi bi-cloud-arrow-up"></i>
+                            <span>Seleccionar imagen</span>
+                        </label>
+                        <input id="pImagen" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-berry" id="btnGuardar">Guardar producto</button>
+                <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-main" id="btnGuardar">
+                    <i class="bi bi-check2"></i>
+                    <span>Guardar producto</span>
+                </button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- ============ MODAL: DETALLE ============ -->
+<!-- ===================== MODAL DETALLE ===================== -->
 <div class="modal fade" id="modalDetalle" tabindex="-1" aria-labelledby="tituloDetalle" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content detail-modal">
             <div class="modal-header">
-                <h2 class="modal-title fs-5 titulo" id="tituloDetalle">Detalle del producto</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <div>
+                    <span class="eyebrow">DETALLE DEL PRODUCTO</span>
+                    <h2 class="modal-title" id="tituloDetalle">Producto</h2>
+                </div>
+                <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Cerrar"><i class="bi bi-x-lg"></i></button>
             </div>
             <div class="modal-body" id="cuerpoDetalle"></div>
         </div>
     </div>
 </div>
 
-<!-- ============ MODAL: HISTORIAL ============ -->
+<!-- ===================== MODAL HISTORIAL ===================== -->
 <div class="modal fade" id="modalHistorial" tabindex="-1" aria-labelledby="tituloHistorial" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content history-modal">
             <div class="modal-header">
-                <h2 class="modal-title fs-5 titulo" id="tituloHistorial">Historial de cambios (últimas 50 acciones)</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <div>
+                    <span class="eyebrow">TRAZABILIDAD</span>
+                    <h2 class="modal-title" id="tituloHistorial">Historial de cambios</h2>
+                    <p>Últimas 50 acciones registradas en el módulo.</p>
+                </div>
+                <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Cerrar"><i class="bi bi-x-lg"></i></button>
             </div>
-            <div class="modal-body table-responsive">
-                <table class="table table-sm">
-                    <thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Producto</th></tr></thead>
-                    <tbody id="cuerpoHistorial"></tbody>
-                </table>
+            <div class="modal-body">
+                <div class="history-table-wrap">
+                    <table class="table history-table">
+                        <thead><tr><th>Fecha</th><th>Usuario</th><th>Acción</th><th>Producto</th></tr></thead>
+                        <tbody id="cuerpoHistorial"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true">
-        <div class="toast-body" id="toastTexto"></div>
+<div class="toast-container position-fixed bottom-0 end-0 p-4">
+    <div id="toast" class="toast app-toast" role="status" aria-live="polite" aria-atomic="true">
+        <div class="toast-body">
+            <div class="toast-icon"><i class="bi bi-check2"></i></div>
+            <span id="toastTexto"></span>
+        </div>
     </div>
 </div>
 
